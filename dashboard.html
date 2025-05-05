@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>User Dashboard</title></head>
+<body>
+  <h2>User Dashboard</h2>
+  <a href="book-appointment.html">Book Appointment</a> |
+  <a href="#" onclick="logout()">Logout</a>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

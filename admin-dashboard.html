@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Admin Dashboard</title></head>
+<body>
+  <h2>Admin Dashboard</h2>
+  <a href="manage-doctors.html">Manage Doctors</a> |
+  <a href="manage-appointments.html">Manage Appointments</a> |
+  <a href="manage-messages.html">View Messages</a> |
+  <a href="#" onclick="logout()">Logout</a>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      location.href = "../login.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>User Messages</title></head>
+<body>
+  <h2>User Messages</h2>
+  <div id="messageList"></div>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    async function fetchMessages() {
+      const res = await fetch('http://localhost:5000/api/messages', {
+        headers: { 'Authorization': token }
+      });
+      const messages = await res.json();
+      messageList.innerHTML = messages.map(msg => `
+        <p><strong>${msg.userId.name}:</strong> ${msg.message}</p>
+      `).join('');
+    }
+
+    fetchMessages();
+  </script>
+</body>
+</html>

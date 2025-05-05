@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Manage Appointments</title></head>
+<body>
+  <h2>All Appointments</h2>
+  <div id="appointments"></div>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    async function fetchAppointments() {
+      const res = await fetch('http://localhost:5000/api/appointments', {
+        headers: { 'Authorization': token }
+      });
+      const data = await res.json();
+      appointments.innerHTML = data.map(app => `
+        <p>
+          User: ${app.userId.name}, Doctor: ${app.doctorId.name}, Date: ${app.date}, Time: ${app.time}, 
+          Status: ${app.status}
+          <select onchange="updateStatus('${app._id}', this.value)">
+            <option value="">Change Status</option>
+            <option value="accepted">Accept</option>
+            <option value="rejected">Reject</option>
+            <option value="pending">Pending</option>
+          </select>
+        </p>
+      `).join('');
+    }
+
+    async function updateStatus(id, status) {
+      await fetch('http://localhost:5000/api/appointments/status/${id}', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ status })
+      });
+      fetchAppointments();
+    }
+
+    fetchAppointments();
+  </script>
+</body>
+</html>

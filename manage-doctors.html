@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Manage Doctors</title></head>
+<body>
+  <h2>Doctor List</h2>
+  <div id="doctorList"></div>
+
+  <h3>Add Doctor</h3>
+  <form id="doctorForm">
+    <input type="text" id="name" placeholder="Doctor Name" required><br>
+    <input type="text" id="specialty" placeholder="Specialty" required><br>
+    <button type="submit">Add Doctor</button>
+  </form>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    async function fetchDoctors() {
+      const res = await fetch('http://localhost:5000/api/doctors', {
+        headers: { 'Authorization': token }
+      });
+      const doctors = await res.json();
+      doctorList.innerHTML = doctors.map(doc => <p>${doc.name} - ${doc.specialty}</p>).join('');
+    }
+
+    document.getElementById('doctorForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('http://localhost:5000/api/doctors/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
+        body: JSON.stringify({
+          name: name.value,
+          specialty: specialty.value
+        })
+      });
+      fetchDoctors();
+    });
+
+    fetchDoctors();
+  </script>
+</body>
+</html>
